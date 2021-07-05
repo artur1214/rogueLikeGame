@@ -8,7 +8,7 @@ import static it.sevenbits.trex.Main.TERMINAL;
  * Класс игрового окна
  */
 public class  GameScreen extends JFrame {
-    public GameScreen(PlayerController control) {
+    public GameScreen(KeyReader control) {
         super();
         this.add(TERMINAL);
         this.addKeyListener(control);

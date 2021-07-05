@@ -8,111 +8,45 @@ import java.awt.event.KeyListener;
  * Класс для обработки упрвления
  */
 
-public class PlayerController implements KeyListener {
-    private Player player;
-    private boolean isUp = false;
-    private boolean isDown = false;
-    private boolean isLeft = false;
-    private boolean isRight = false;
-    private boolean isExit = false;
-    private ScreenManager screenManager;
+public class PlayerController {
 
-    public PlayerController(Player player, ScreenManager screenManager){
+    private Player player;
+    private ObjectManager screenManager;
+
+    public PlayerController(Player player, ObjectManager screenManager){
         this.player = player;
-        this.isUp = false;
-        this.isDown = false;
-        this.isLeft = false;
-        this.isDown = false;
-        this.isExit = false;
         this.screenManager = screenManager;
     }
 
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
-
-    @Override
-    public void keyPressed(final KeyEvent keyEvent) {
-        switch (keyEvent.getKeyCode()) {
-            case KeyEvent.VK_UP:
-                this.isUp = true;
-                break;
-            case KeyEvent.VK_DOWN:
-                this.isDown = true;
-                break;
-            case KeyEvent.VK_RIGHT:
-                this.isRight = true;
-                break;
-            case KeyEvent.VK_LEFT:
-                this.isLeft = true;
-                break;
-            case KeyEvent.VK_ESCAPE:
-                this.isExit = true;
-                break;
-            default:
-                break;
+    public void movePlayer(boolean up, boolean left, boolean down, boolean right) {
+        int x = player.getX();
+        int y = player.getY();
+        y = y - (up ? 1:0) + (down ? 1:0);
+        x = x - (left ? 1:0) + (right ? 1:0);
+        if(x < 0){
+            x = 0;
         }
-        movePlayer();
-    }
-
-    private void movePlayer() {
-
-        if(isDown && !screenManager.isObstacle(player.getX(), player.getY() + 1)){
-            player.setY(player.getY()+1);
+        if(x >= screenManager.getWidth()){
+            x = screenManager.getWidth()-1;
         }
-        else if(isUp && !screenManager.isObstacle(player.getX(), player.getY() - 1)){
-            player.setY(player.getY()-1);
+        if(y < 0){
+            y = 0;
         }
-        else if(isLeft && !screenManager.isObstacle(player.getX()-1, player.getY())){
-            player.setX(player.getX()-1);
+        if (y >= screenManager.getHeight()){
+            y = screenManager.getHeight()-1;
         }
-        else if(isRight && !screenManager.isObstacle(player.getX()+1, player.getY())){
-            player.setX(player.getX()+1);
+
+
+        if (!screenManager.isObstacle(x, y)){
+            if(screenManager.isCoin(x, y)){
+                screenManager.scores += 1;
+                screenManager.randomMoveObject(x, y);
+            }
+            player.setX(x);
+            player.setY(y);
+            screenManager.moves += 1;
         }
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
 
     }
 
-    public boolean isUp() {
-        return isUp;
-    }
-
-    public void setUp(boolean up) {
-        isUp = up;
-    }
-
-    public boolean isDown() {
-        return isDown;
-    }
-
-
-    public boolean isRight() {
-        return isRight;
-    }
-
-    public void setRight(boolean right) {
-        isRight = right;
-    }
-
-    public void resetControl() {
-        this.isUp = false;
-        this.isDown = false;
-        this.isLeft = false;
-        this.isRight = false;
-        this.isExit = false;
-    }
-
-
-    public boolean isExit() {
-        return isExit;
-    }
-
-    public void setExit(boolean exit) {
-        isExit = exit;
-    }
 }
