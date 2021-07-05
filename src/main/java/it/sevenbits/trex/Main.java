@@ -2,21 +2,13 @@ package it.sevenbits.trex;
 
 import asciiPanel.AsciiPanel;
 
-import javax.swing.JFrame;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.util.ArrayList;
-import java.util.List;
-
-import static it.sevenbits.trex.Main.GAME_OVER;
-import static it.sevenbits.trex.Main.TERMINAL;
 
 /**
  * Главный класс, точка входа в игру
  */
 public class Main {
-    private static int width = 80;
-    private static int height = 40;
+    private static final int width = 80;
+    private static final int height = 40;
     public static final AsciiPanel TERMINAL = new AsciiPanel(width, height);
     public static boolean GAME_OVER = false;
 
@@ -67,8 +59,8 @@ public class Main {
 
             objects.updateAll();
             reader.resetInput();
-            TERMINAL.write("Score:" + String.valueOf(objects.scores), width-11, 0);
-            TERMINAL.write("Moves:" + String.valueOf(objects.moves), width-11, 1);
+            TERMINAL.write("Score:" + objects.scores, width-11, 0);
+            TERMINAL.write("Moves:" + objects.moves, width-11, 1);
             screen.repaint();
             try {
                 Thread.sleep(sleepTime);
