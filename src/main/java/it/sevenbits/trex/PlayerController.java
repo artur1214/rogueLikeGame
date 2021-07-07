@@ -45,6 +45,7 @@ public class PlayerController {
             player.setX(x);
             player.setY(y);
             screenManager.moves += 1;
+
         }
 
     }

@@ -26,6 +26,7 @@ public class GameTile {
         this.symbol = symbol;
     }
 
+
     private void render() {
         TERMINAL.write(symbol, x, y);
     }
@@ -58,7 +59,8 @@ public class GameTile {
     public int getY() {
         return this.y;
     }
-    public int[] getCoords(){
-        return new int[]{this.x, this.y};
+
+    public Coords getCoords(){
+        return new Coords(this.x, this.y);
     }
 }

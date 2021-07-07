@@ -9,7 +9,9 @@ import asciiPanel.AsciiPanel;
 public class Main {
     private static final int width = 80;
     private static final int height = 40;
-    public static final AsciiPanel TERMINAL = new AsciiPanel(width, height);
+    public static AsciiPanel TERMINAL;
+
+
     public static boolean GAME_OVER = false;
 
     /**
@@ -20,24 +22,14 @@ public class Main {
     public static void main(final String[] args) {
         final long sleepTime = 40;
         final long beforeExitTime = 1500;
+        ObjectManager objects = new FileMapLoader().getMap("map.txt");
+        TERMINAL = new AsciiPanel(objects.getWidth(), objects.getHeight());
+        Player player = objects.getPlayer();
 
-        //ScreenManager objects = new ScreenManager();
-        ObjectManager objects = new ObjectManager(width, height);
-        Player player = new Player(5,5);
         PlayerController playerController = new PlayerController(player, objects);
         KeyReader reader = new KeyReader(playerController);
         GameScreen screen = new GameScreen(reader);
-        objects.addObject(player);
-        objects.addObject(new Obstacle(10, 10));
-        objects.addObject(new Obstacle(10, 11));
-        objects.addObject(new Obstacle(10, 12));
-        objects.addObject(new Obstacle(10, 13));
-        objects.addObject(new Obstacle(10, 14));
-        objects.addObject(new Coin(20, 30));
-        objects.addObject(new Coin(30, 20));
-
-
-
+        System.out.println(objects.getWidth() + " " + objects.getHeight());
 
         while (true) {
             TERMINAL.clear();
@@ -59,8 +51,8 @@ public class Main {
 
             objects.updateAll();
             reader.resetInput();
-            TERMINAL.write("Score:" + objects.scores, width-11, 0);
-            TERMINAL.write("Moves:" + objects.moves, width-11, 1);
+            TERMINAL.write("Score:" + objects.scores, objects.getWidth()-11, 0);
+            TERMINAL.write("Moves:" + objects.moves, objects.getWidth()-11, 1);
             screen.repaint();
             try {
                 Thread.sleep(sleepTime);
