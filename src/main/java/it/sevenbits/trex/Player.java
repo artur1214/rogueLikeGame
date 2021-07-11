@@ -1,14 +1,12 @@
 package it.sevenbits.trex;
 
-import static it.sevenbits.trex.Main.TERMINAL;
-
 
 /**
  * Класс, описывающий модель Игрок
  */
 
 
-public class Player extends GameTile{
+public class Player extends GameTile {
 
     /**
      * Конструктор класса Player
@@ -21,7 +19,7 @@ public class Player extends GameTile{
      *          // * @param gravity       - гравитация
      */
 
-    Player(int x, int y) {
+    Player(final int x, final int y) {
 
         super('@', x, y);
     }

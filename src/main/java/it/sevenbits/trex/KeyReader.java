@@ -3,6 +3,8 @@ package it.sevenbits.trex;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import static it.sevenbits.trex.Main.gameOver;
+
 public class KeyReader implements KeyListener {
 
     private boolean isUp = false;
@@ -13,16 +15,20 @@ public class KeyReader implements KeyListener {
     private PlayerController controller;
 
     @Override
-    public void keyTyped(KeyEvent e) {
+    public void keyTyped(final KeyEvent e) {
 
     }
 
-    public KeyReader(PlayerController controller){
+    public KeyReader(final PlayerController controller) {
         this.isUp = false;
         this.isDown = false;
         this.isLeft = false;
         this.isDown = false;
         this.isExit = false;
+        this.controller = controller;
+    }
+
+    public void setController(PlayerController controller) {
         this.controller = controller;
     }
 
@@ -44,6 +50,10 @@ public class KeyReader implements KeyListener {
             case KeyEvent.VK_ESCAPE:
                 this.isExit = true;
                 break;
+            case KeyEvent.VK_ENTER:
+                if (gameOver){
+                    gameOver = false;
+                }
             default:
                 break;
         }
@@ -60,11 +70,11 @@ public class KeyReader implements KeyListener {
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {
+    public void keyReleased(final KeyEvent e) {
 
     }
 
-    public boolean isExit(){
+    public boolean isExit() {
         return isExit;
     }
 }

@@ -1,8 +1,8 @@
 package it.sevenbits.trex;
 
-public class Coin extends GameTile{
+public class Coin extends GameTile {
 
-    Coin(int x, int y) {
+    Coin(final int x, final int y) {
 
         super('$', x, y);
     }

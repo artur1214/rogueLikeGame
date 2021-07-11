@@ -7,12 +7,12 @@ import asciiPanel.AsciiPanel;
  * Главный класс, точка входа в игру
  */
 public class Main {
-    private static final int width = 80;
-    private static final int height = 40;
-    public static AsciiPanel TERMINAL;
+    private static final int WIDTH = 80;
+    private static final int HEIGHT = 40;
+    public static AsciiPanel terminal;
 
 
-    public static boolean GAME_OVER = false;
+    public static boolean gameOver = false;
 
     /**
      * Старт нашего приложения
@@ -21,9 +21,9 @@ public class Main {
      */
     public static void main(final String[] args) {
         final long sleepTime = 40;
-        final long beforeExitTime = 1500;
+        final long beforeExitTime = 10500;
         ObjectManager objects = new FileMapLoader().getMap("map.txt");
-        TERMINAL = new AsciiPanel(objects.getWidth(), objects.getHeight());
+        terminal = new AsciiPanel(objects.getWidth(), objects.getHeight());
         Player player = objects.getPlayer();
 
         PlayerController playerController = new PlayerController(player, objects);
@@ -31,15 +31,23 @@ public class Main {
         GameScreen screen = new GameScreen(reader);
         System.out.println(objects.getWidth() + " " + objects.getHeight());
 
+        final int gameOverTextPosition = objects.getHeight() / 2 - 1;
+        final int scoreTextPositionX = objects.getWidth() - 12;
+        final int scoreTextPositionY = 0;
+        final int movesTextPositionX = objects.getWidth() - 12;
+        final int movesTextPositionY = 1;
+
         while (true) {
-            TERMINAL.clear();
+            terminal.clear();
 
             if (reader.isExit()) {
                 break;
             }
 
-            if (GAME_OVER) {
-                TERMINAL.writeCenter("Game over!", 10, AsciiPanel.brightBlue);
+            if (gameOver) {
+                terminal.writeCenter("Game over!", gameOverTextPosition, AsciiPanel.brightBlue);
+                terminal.writeCenter("Score: " + objects.scores, gameOverTextPosition + 1, AsciiPanel.brightBlue);
+                terminal.writeCenter("Moves: " + objects.moves, gameOverTextPosition + 2, AsciiPanel.brightBlue);
                 screen.repaint();
                 try {
                     Thread.sleep(beforeExitTime);
@@ -51,11 +59,12 @@ public class Main {
 
             objects.updateAll();
             reader.resetInput();
-            TERMINAL.write("Score:" + objects.scores, objects.getWidth()-11, 0);
-            TERMINAL.write("Moves:" + objects.moves, objects.getWidth()-11, 1);
+            terminal.write("Score: " + objects.scores, scoreTextPositionX, scoreTextPositionY);
+            terminal.write("Moves: " + objects.moves, movesTextPositionX, movesTextPositionY);
             screen.repaint();
             try {
                 Thread.sleep(sleepTime);
+
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

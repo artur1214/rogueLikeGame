@@ -4,13 +4,13 @@ public class Coords {
 
     private int x, y;
 
-    public Coords(int x, int y){
+    public Coords(final int x, final int y) {
         this.x = x;
         this.y = y;
     }
 
     @Override
-    public boolean equals(Object other) {
+    public boolean equals(final Object other) {
         if (!(other instanceof Coords)) {
             return false;
         }
@@ -26,7 +26,7 @@ public class Coords {
     public int hashCode() {
         int hashCode = 1;
 
-        hashCode = hashCode * 37 + new Integer(x).hashCode()-11;
+        hashCode = hashCode * 37 + new Integer(x).hashCode() - 11;
         hashCode = hashCode * 37 + new Integer(y).hashCode();
 
         return hashCode;
@@ -36,7 +36,7 @@ public class Coords {
         return x;
     }
 
-    public void setX(int x) {
+    public void setX(final int x) {
         this.x = x;
     }
 
@@ -44,7 +44,7 @@ public class Coords {
         return y;
     }
 
-    public void setY(int y) {
+    public void setY(final int y) {
         this.y = y;
     }
 }

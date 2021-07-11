@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class FileMapLoader implements Loader {
-    public ObjectManager getMap(String s) {
+    public ObjectManager getMap(final String s) {
         try {
 
             File file = new File(s);
@@ -29,13 +29,18 @@ public class FileMapLoader implements Loader {
                             break;
                         case ('$'):
                             manager.addObject(new Coin(curX, height));
+                            break;
+                        case ('>'):
+                            manager.addObject(new Door(curX, height));
+                            break;
+                        default: break;
                     }
-                    curX +=1;
+                    curX += 1;
                 }
-                if(width < curX){
+                if (width < curX) {
                     width = curX;
                 }
-                height +=1;
+                height += 1;
             }
             manager.setWidth(width);
             manager.setHeight(height);

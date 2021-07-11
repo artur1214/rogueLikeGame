@@ -1,10 +1,13 @@
 package it.sevenbits.trex;
 
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class ObjectManager {
-    public int scores=0;
+    public int scores = 0;
     public int moves = 0;
     private Map<Coords, GameTile> objects = new HashMap<>();
 
@@ -14,11 +17,11 @@ public class ObjectManager {
         return height;
     }
 
-    public void setHeight(int height) {
+    public void setHeight(final int height) {
         this.height = height;
     }
 
-    public void setWidth(int width) {
+    public void setWidth(final int width) {
         this.width = width;
     }
 
@@ -26,19 +29,19 @@ public class ObjectManager {
         return width;
     }
 
-    public ObjectManager(int width, int height) {
+    public ObjectManager(final int width, final int height) {
         this.width = width;
         this.height = height;
     }
 
     public ObjectManager(){}
 
-    public void addObject(GameTile tile) {
+    public void addObject(final GameTile tile) {
         this.objects.put(tile.getCoords(), tile);
     }
 
-    public void removeObject(int x, int y) {
-        objects.remove(new Coords(x,y));
+    public void removeObject(final int x, final int y) {
+        objects.remove(new Coords(x, y));
     }
 
     public void updateAll() {
@@ -49,9 +52,9 @@ public class ObjectManager {
         }
     }
 
-    public boolean isObstacle(int x, int y) {
-        GameTile obj = objects.get(new Coords(x,y));
-        if (obj !=null){
+    public boolean isObstacle(final int x, final int y) {
+        GameTile obj = objects.get(new Coords(x, y));
+        if (obj != null) {
             if (obj.getX() == x && obj.getY() == y) {
                 if (obj.getClass() == Obstacle.class) {
                     System.out.println("(" + x + ", " + y + ")" + "   " + "(" + obj.getX() + ", " + obj.getY() + ")");
@@ -62,9 +65,9 @@ public class ObjectManager {
         return false;
     }
 
-    public boolean isCoin(int x, int y) {
+    public boolean isCoin(final int x, final int y) {
         GameTile obj = objects.get(new Coords(x, y));
-        if (obj !=null){
+        if (obj != null) {
             if (obj.getX() == x && obj.getY() == y) {
                 if (obj.getClass() == Coin.class) {
                     System.out.println("(" + x + ", " + y + ")" + "   " + "(" + obj.getX() + ", " + obj.getY() + ")");
@@ -75,23 +78,35 @@ public class ObjectManager {
         return false;
     }
 
-    public void randomMoveObject(int x, int y) {
+    public void randomMoveObject(final int x, final int y) {
         GameTile obj = objects.get(new Coords(x, y));
         obj.setX(ThreadLocalRandom.current().nextInt(0, width));
-        obj.setY(ThreadLocalRandom.current().nextInt(0, height));
+        obj.setY(ThreadLocalRandom.current().nextInt(2, height));
         Coords newCoords = new Coords(obj.getX(), obj.getY());
 
         objects.put(newCoords, obj);
         objects.remove(new Coords(x, y));
     }
 
-    public Player getPlayer(){
+    public Player getPlayer() {
         ArrayList<GameTile> gameTiles = new ArrayList<>(objects.values());
         for (int i = 0; i < gameTiles.size(); i++) {
-            if(gameTiles.get(i).getClass() == Player.class){
+            if (gameTiles.get(i).getClass() == Player.class) {
                 return (Player) gameTiles.get(i);
             }
         }
         return null;
+    }
+    public boolean isDoor(final int x, final int y){
+        GameTile obj = objects.get(new Coords(x, y));
+        if (obj != null) {
+            if (obj.getX() == x && obj.getY() == y) {
+                if (obj.getClass() == Door.class) {
+                    System.out.println("(" + x + ", " + y + ")" + "   " + "(" + obj.getX() + ", " + obj.getY() + ")");
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

@@ -1,6 +1,6 @@
 package it.sevenbits.trex;
 
-import static it.sevenbits.trex.Main.TERMINAL;
+import static it.sevenbits.trex.Main.terminal;
 
 public class GameTile {
     /**
@@ -20,7 +20,7 @@ public class GameTile {
      */
 
 
-    GameTile(char symbol, final int x, final int y) {
+    GameTile(final char symbol, final int x, final int y) {
         this.x = x;
         this.y = y;
         this.symbol = symbol;
@@ -28,7 +28,7 @@ public class GameTile {
 
 
     private void render() {
-        TERMINAL.write(symbol, x, y);
+        terminal.write(symbol, x, y);
     }
 
 
@@ -45,10 +45,10 @@ public class GameTile {
         return this.x;
     }
 
-    public void setX(int x){
+    public void setX(final int x) {
         this.x = x;
     }
-    public void setY(int y){
+    public void setY(final int y) {
         this.y = y;
     }
     /**
@@ -60,7 +60,7 @@ public class GameTile {
         return this.y;
     }
 
-    public Coords getCoords(){
+    public Coords getCoords() {
         return new Coords(this.x, this.y);
     }
 }
